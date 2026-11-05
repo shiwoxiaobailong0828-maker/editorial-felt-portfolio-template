@@ -900,7 +900,7 @@
       <button class="tab act" data-rcat="all">全部公开仓库</button>
       <button class="tab" data-rcat="ai">🤖 小智 AI 智能体 (5)</button>
       <button class="tab" data-rcat="3d">🏙️ 3D 场景与网站模板 (3)</button>
-      <button class="tab" data-rcat="tool">💼 秋招求职与旅行工具 (4)</button>
+      <button class="tab" data-rcat="tool">💼 秋招求职与旅行工具 (2)</button>
     </div>
     <div class="repos" id="repoGrid">
       <a class="repo" data-rcat="3d" href="https://github.com/shiwoxiaobailong0828-maker/rainy-night-konbini-diorama" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><div style="margin-bottom:8px"><span class="tag-pill">3D微缩世界</span></div><div class="rn">rainy-night-konbini-diorama</div><p>雨夜便利店街角 · 三渲二微缩三维场景（从下往上零穿模搭建、WebAudio 程序化音效与动态天气）</p><div class="lang"><i style="background:#f1e05a"></i>JavaScript</div></a>
@@ -1190,7 +1190,8 @@ document.getElementById('mq').innerHTML = seq + seq;
   try {
     const r = await fetch('https://api.github.com/users/shiwoxiaobailong0828-maker/repos?per_page=100&sort=updated');
     if (!r.ok) return;
-    const repos = (await r.json()).filter(x => x.name !== '-' && x.name !== 'shiwoxiaobailong0828-maker');
+    const ignored = new Set(['-', 'shiwoxiaobailong0828-maker', 'qiuzhiwangzhan', 'autumn-recruit']);
+    const repos = (await r.json()).filter(x => !ignored.has(x.name));
     if (!repos.length) return;
     const LC = { JavaScript: '#f1e05a', HTML: '#e34c26', Python: '#3572A5', TypeScript: '#3178c6', CSS: '#563d7c', Vue: '#41b883' };
     const classify = (x) => {
