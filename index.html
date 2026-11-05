@@ -869,8 +869,6 @@
     <div class="tabs">
       <button class="tab act" data-f="all" id="tabAllCount">全部作品 (8)</button>
       <button class="tab" data-f="live">已发布 / 已上线</button>
-      <button class="tab" data-f="score">评分中</button>
-      <button class="tab" data-f="wip">制作中</button>
     </div>
     <div class="editorial-list" id="workGrid"></div>
   </section>
@@ -949,7 +947,7 @@ const WORKS = [
     feats: ["从下往上零穿模逐层搭建，可按 R 键重播", "按 1-4 切换微雨 / 中雨 / 雷暴 / 星夜，按 L 手动劈雷", "按 P 键自动播放 25 秒电影级运镜与配乐，M 键静音"]
   },
   {
-    slug: "shuibao", name: "水保小智", cat: "AI AGENT · 水土保持", status: "score", badge: "评分中", bcls: "b-score",
+    slug: "shuibao", name: "水保小智", cat: "AI AGENT · 水土保持", status: "live", badge: "已发布", bcls: "b-live",
     desc: "土壤侵蚀诊断助手：输入坡度、降雨、地貌，它帮你判断侵蚀风险并给出水土保持方案。",
     long: "把专业的水土保持知识做成了一个人人能用的诊断工具：回答几个问题，它就能算出侵蚀风险等级，再给出对应的治理建议和一份小报告。",
     feats: ["17 项指标打分，自动算出低 / 中 / 高 / 极高四档风险", "47 条专业知识随时问答", "一键生成诊断小报告"]
@@ -985,9 +983,9 @@ const WORKS = [
     feats: ["投递进度一页看全：岗位、公司、状态清清楚楚", "进度统计自动汇总，投了多少、走到哪步心里有数", "多个 Offer 并排对比分析，选哪个不纠结"]
   },
   {
-    slug: "xingye", name: "星野小智", cat: "AI AGENT · 观星向导", status: "wip", badge: "制作中", bcls: "b-wip",
+    slug: "xingye", name: "星野小智", cat: "AI AGENT · 观星向导", status: "live", badge: "已发布", bcls: "b-live",
     desc: "星空探索助手：今晚看什么星、往哪儿看，它带你抬头认识头顶的那片天。",
-    long: "正在孵化中的观星向导：等它上线，今晚出门抬头看什么，它都会提前告诉你。",
+    long: "观星向导：今晚出门抬头看什么、往哪个方向找星座，它都会提前一步一步告诉你。",
     feats: ["今晚可见星体推荐", "观星地点与时间建议", "星座故事慢慢讲"]
   }
 ];
