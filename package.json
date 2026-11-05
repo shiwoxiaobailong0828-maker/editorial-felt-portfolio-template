@@ -1,0 +1,19 @@
+{
+  "name": "editorial-felt-portfolio-template",
+  "version": "1.0.0",
+  "private": true,
+  "description": "杂志大字画册风 × 3D 羊毛毡互动形象个人作品集网站模板",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build:mascot": "vite build --config vite.config.js",
+    "shoot:works": "node scripts/shoot_works.mjs"
+  },
+  "dependencies": {
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^23.0.0",
+    "vite": "^6.0.0"
+  }
+}
