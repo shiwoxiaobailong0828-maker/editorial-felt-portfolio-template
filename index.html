@@ -893,13 +893,19 @@
         <span class="no">03</span>
         <h2>GitHub · 代码仓库</h2>
       </div>
-      <span class="sub-label">OPEN SOURCE · 自动同步最新公开仓库</span>
+      <span class="sub-label">CATEGORIZED REPOS · 按主题分类归档</span>
     </div>
-    <p class="sec-desc">我的公开代码仓库，新作品会自动同步出现在这里。</p>
+    <p class="sec-desc">我的公开代码仓库已按主题分类整理，点击下方分类标签可筛选查看，新仓库也会自动归类同步。</p>
+    <div class="tabs" id="repoTabs">
+      <button class="tab act" data-rcat="all">全部公开仓库</button>
+      <button class="tab" data-rcat="ai">🤖 小智 AI 智能体 (5)</button>
+      <button class="tab" data-rcat="3d">🏙️ 3D 场景与网站模板 (3)</button>
+      <button class="tab" data-rcat="tool">💼 秋招求职与旅行工具 (4)</button>
+    </div>
     <div class="repos" id="repoGrid">
-      <a class="repo" href="https://github.com/shiwoxiaobailong0828-maker/rainy-night-konbini-diorama" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><div class="rn">rainy-night-konbini-diorama</div><p>雨夜便利店街角 · 三渲二微缩三维场景（含从下往上零穿模搭建、WebAudio 程序化音效与多天气系统）。</p><div class="lang"><i style="background:#f1e05a"></i>JavaScript</div></a>
-      <a class="repo" href="https://github.com/shiwoxiaobailong0828-maker/guiyang-travel-guide" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><div class="rn">guiyang-travel-guide</div><p>贵阳旅行攻略：把一次旅行查到的吃住行，整理成一份能直接照着走的指南。</p><div class="lang"><i style="background:#f1e05a"></i>JavaScript</div></a>
-      <a class="repo" href="https://github.com/shiwoxiaobailong0828-maker/yiyeqiuzhao-" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><div class="rn">yiyeqiuzhao-</div><p>一页秋招：秋招投递进度、面试安排与 Offer 对比工作台。</p><div class="lang"><i style="background:#e34c26"></i>HTML</div></a>
+      <a class="repo" data-rcat="3d" href="https://github.com/shiwoxiaobailong0828-maker/rainy-night-konbini-diorama" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><div style="margin-bottom:8px"><span class="tag-pill">3D微缩世界</span></div><div class="rn">rainy-night-konbini-diorama</div><p>雨夜便利店街角 · 三渲二微缩三维场景（从下往上零穿模搭建、WebAudio 程序化音效与动态天气）</p><div class="lang"><i style="background:#f1e05a"></i>JavaScript</div></a>
+      <a class="repo" data-rcat="3d" href="https://github.com/shiwoxiaobailong0828-maker/editorial-felt-portfolio-template" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><div style="margin-bottom:8px"><span class="tag-pill">网站模板</span></div><div class="rn">editorial-felt-portfolio-template</div><p>杂志大字画册风 × 3D 羊毛毡实时互动个人作品集网站模板（含 Three.js 源码与自动截图脚本）</p><div class="lang"><i style="background:#e34c26"></i>HTML</div></a>
+      <a class="repo" data-rcat="tool" href="https://github.com/shiwoxiaobailong0828-maker/yiyeqiuzhao-" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><div style="margin-bottom:8px"><span class="tag-pill">求职工作台</span></div><div class="rn">yiyeqiuzhao-</div><p>一页秋招 · 秋招投递进度看板、面试日程与多 Offer 并排对比工作台</p><div class="lang"><i style="background:#e34c26"></i>HTML</div></a>
     </div>
   </section>
 
@@ -1068,14 +1074,26 @@ VIDEOS.forEach((v) => {
   vg.appendChild(el);
 });
 
-/* 筛选按钮 */
-document.querySelectorAll('.tab').forEach(t => {
+/* 筛选按钮（作品画册） */
+document.querySelectorAll('#works .tab').forEach(t => {
   t.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(x => x.classList.remove('act'));
+    document.querySelectorAll('#works .tab').forEach(x => x.classList.remove('act'));
     t.classList.add('act');
     const f = t.dataset.f;
     document.querySelectorAll('.work-item').forEach(w => {
       w.classList.toggle('hide', f !== 'all' && w.dataset.status !== f);
+    });
+  });
+});
+
+/* 筛选按钮（GitHub 仓库分类） */
+document.querySelectorAll('#repoTabs .tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('#repoTabs .tab').forEach(x => x.classList.remove('act'));
+    t.classList.add('act');
+    const c = t.dataset.rcat;
+    document.querySelectorAll('#repoGrid .repo').forEach(r => {
+      r.style.display = (c === 'all' || r.dataset.rcat === c) ? '' : 'none';
     });
   });
 });
@@ -1167,17 +1185,25 @@ const words = ["3D 羊毛毡双人互动", "实机截图画册", "AI 智能体�
 const seq = words.map(w => `<span>✦ <b>${w}</b></span>`).join('');
 document.getElementById('mq').innerHTML = seq + seq;
 
-/* GitHub 仓库实时同步 */
+/* GitHub 仓库实时同步与自动分类归档 */
 (async () => {
   try {
     const r = await fetch('https://api.github.com/users/shiwoxiaobailong0828-maker/repos?per_page=100&sort=updated');
     if (!r.ok) return;
-    const repos = (await r.json()).filter(x => !x.name.endsWith('.github.io') && x.name !== '-').slice(0, 6);
+    const repos = (await r.json()).filter(x => x.name !== '-' && x.name !== 'shiwoxiaobailong0828-maker');
     if (!repos.length) return;
     const LC = { JavaScript: '#f1e05a', HTML: '#e34c26', Python: '#3572A5', TypeScript: '#3178c6', CSS: '#563d7c', Vue: '#41b883' };
-    document.getElementById('repoGrid').innerHTML = repos.map(x =>
-      `<a class="repo" href="${x.html_url}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><div class="rn">${x.name}</div><p>${x.description || '一个正在长大的小仓库，点开看看。'}</p><div class="lang"><i style="background:${LC[x.language] || '#8b98ad'}"></i>${x.language || 'Code'}</div></a>`
-    ).join('');
+    const classify = (x) => {
+      const d = x.description || '';
+      if (d.includes('AI智能体') || x.name.includes('xiaozhi')) return { key: 'ai', label: '🤖 AI 智能体' };
+      if (d.includes('3D') || d.includes('模板') || d.includes('个人主站') || x.name.includes('diorama') || x.name.includes('template') || x.name.endsWith('.github.io')) return { key: '3d', label: '🏙️ 3D 与设计模板' };
+      return { key: 'tool', label: '💼 求职与实用工具' };
+    };
+    document.getElementById('repoGrid').innerHTML = repos.map(x => {
+      const cat = classify(x);
+      const cleanDesc = (x.description || '一个正在长大的小仓库，点开看看。').replace(/^【[^】]+】\s*/, '');
+      return `<a class="repo" data-rcat="${cat.key}" href="${x.html_url}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><div style="margin-bottom:10px;display:flex;justify-content:space-between;align-items:center"><span class="tag-pill">${cat.label}</span>${x.homepage ? '<span style="font-size:11px;font-weight:800;color:var(--accent)">● 在线可玩</span>' : ''}</div><div class="rn">${x.name}</div><p>${cleanDesc}</p><div class="lang"><i style="background:${LC[x.language] || '#8b98ad'}"></i>${x.language || 'Web / AI'}</div></a>`;
+    }).join('');
   } catch (e) {}
 })();
 </script>
